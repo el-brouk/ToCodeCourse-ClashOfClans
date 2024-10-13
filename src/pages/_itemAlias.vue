@@ -21,18 +21,22 @@ export default {
   components: {
     CardItemStats
   },
+
   data() {
     return {
       item: null
     }
   },
-  created() {
+
+  async created() {
     const alias = this.$route.params.itemAlias
-    const item = items.find(el => el.alias === alias)
-    if (item) {
-      this.item = item
+    const item = alias && items.find(el => el.alias === alias)
+    console.log(item)
+    if (!item) {
+      return await this.$router.push({ name: '404' })
     } else {
-      console.log(this.$route)
+      this.item = item
+      this.isLoading = false
     }
   }
 }
